@@ -1,4 +1,5 @@
 import { createDemoDataStore } from './demoDataStore.js';
+import { createFirestoreDataStore } from './firestoreDataStore.js';
 import { existsSync, readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,11 +24,7 @@ if (isDemoMode) {
 
 export const dataStore = isDemoMode
   ? createDemoDataStore()
-  : createFirestoreDataStore(await import('./firestoreDataStore.js'));
-
-function createFirestoreDataStore(module) {
-  return module.createFirestoreDataStore();
-}
+  : createFirestoreDataStore();
 
 function hasLocalFirebaseServiceAccount() {
   if (!existsSync(servicesDir)) return false;
