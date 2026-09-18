@@ -1,10 +1,9 @@
 import { createDemoDataStore } from './demoDataStore.js';
 import { createFirestoreDataStore } from './firestoreDataStore.js';
 import { existsSync, readdirSync } from 'node:fs';
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
-const servicesDir = dirname(fileURLToPath(import.meta.url));
+const servicesDir = join(process.cwd(), 'server', 'services');
 
 const hasFirebaseConfig = Boolean(
   process.env.FIREBASE_SERVICE_ACCOUNT_BASE64 ||
