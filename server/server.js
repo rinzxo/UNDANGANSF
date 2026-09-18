@@ -36,12 +36,6 @@ app.use('/api', (req, res) => {
   res.status(404).json({ error: 'API endpoint not found' });
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, '../dist')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
-});
-
 app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(err.status || 500).json({
@@ -50,6 +44,11 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Digital invitation API running on port ${port}`);
-});
+// Start the server if running locally (not in lambda)
+if (process.env.NODE_ENV !== 'production' || !process.env.LAMBDA_TASK_ROOT) {
+  app.listen(port, () => {
+    console.log(`Digital invitation API running on port ${port}`);
+  });
+}
+
+export { app };
